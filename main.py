@@ -61,16 +61,7 @@ class MainWindow(QWidget, Ui_Widget):
           length_list_cs0400 = []
           length_list_memzuc = [] 
           
-          #the function to fill filter_combo_box with table names from db, dinamically
-          def fetch_data_from_db():
-               cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
-               data = cursor.fetchall()
-               #conn.close()
-               return [item[0] for item in data]
-          
-          #getting table names from and filling filter_combo_box
-          data = fetch_data_from_db()
-          self.filter_combo_box.addItems(data)
+
           
           conn = sqlite3.connect('deneme.db')
           cursor = conn.cursor()
@@ -150,6 +141,17 @@ class MainWindow(QWidget, Ui_Widget):
                          print('Invalid report name')
 
           create_table_if_not_exists()  # Son tabloyu oluşturmak için çağır
+          
+          #the function to fill filter_combo_box with table names from db, dinamically
+          def fetch_data_from_db():
+               cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+               data = cursor.fetchall()
+               #conn.close()
+               return [item[0] for item in data]
+          
+          #getting table names from and filling filter_combo_box
+          data = fetch_data_from_db()
+          self.filter_combo_box.addItems(data)
           
           for table in table_names:
                cursor.execute(f'DELETE FROM {table}')
@@ -246,26 +248,6 @@ class MainWindow(QWidget, Ui_Widget):
                msg.setStandardButtons(QMessageBox.Ok)
                msg.exec_()
                return
-          
-
-          if filter_value == "All":
-               column_names = []
-               all_datas = []
-               for table in self.table_names:
-                    cursor.execute(f'SELECT * FROM {table}')
-                    rows = cursor.fetchall()
-                    if rows:
-                         table_columns = [description[0] for description in cursor.description]
-                         if not column_names:
-                              column_names = table_columns
-                              self.tableWidget.setColumnCount(len(column_names))
-                              self.tableWidget.setHorizontalHeaderLabels(column_names)
-                         all_datas.extend(rows)
-               for row_data in all_datas:
-                    row = self.tableWidget.rowCount()
-                    self.tableWidget.insertRow(row)
-                    for column, data in enumerate(row_data):
-                         self.tableWidget.setItem(row, column, QtWidgets.QTableWidgetItem(str(data)))
           else:
                cursor.execute(f'SELECT * FROM {filter_value}')
                rows = cursor.fetchall()
@@ -278,14 +260,6 @@ class MainWindow(QWidget, Ui_Widget):
                          self.tableWidget.insertRow(row)
                          for column, data in enumerate(row_data):
                               self.tableWidget.setItem(row, column, QtWidgets.QTableWidgetItem(str(data)))
-                              
-          def fetch_tables_from_db():
-               conn = sqlite3.connect('deneme.db')
-               cursor = conn.cursor()
-               cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
-               tables = cursor.fetchall()
-               conn.close()
-               return [item[0] for item in tables]
           
           def fetch_columns_from_db():
                conn = sqlite3.connect('deneme.db')
@@ -500,14 +474,7 @@ class MainWindow(QWidget, Ui_Widget):
 
                     conn.commit()
                     conn.close()
-
-          # Update the database
-          #update_query = f"UPDATE {target_table_name} SET {target_column_name} = ? WHERE {target_column_name} = ?"
-          #cursor.execute(update_query, (new_value, old_value))
-          #conn.commit()
-          #conn.close()
-          
-
+                    
                print('Update button clicked')
       
      def get_info(self):

@@ -94,7 +94,7 @@ class Ui_Widget(object):
         self.main_page.addWidget(self.page_4)
 
         self.retranslateUi(Widget)
-        self.main_page.setCurrentIndex(0)
+        self.main_page.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(Widget)
 
     def retranslateUi(self, Widget):
