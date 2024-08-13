@@ -59,65 +59,65 @@ PARSING APP
      In the controlling section, to taking the column names there is "table_columns_name_list" and to taking the finished table names there is "table_names" list.
      
      To parse row datas with sepificed index at the model file. We will need this indexes at the parsing.
-          The first function of the parsing() function is "create_table_if_not_exists()".
-               We will use it to creating tables.
-               Checking, is there any column name in the "column_name_list" for the table.
-               If there is no problem, creating table name and adding to "table_names" list with "append()"
-               When create a table, we need column names and types. For this column names with type we have "formatted_column_with_types".
-               After this steps execute SQL code and create table.
+     The first function of the parsing() function is "create_table_if_not_exists()".
+     We will use it to creating tables.
+     Checking, is there any column name in the "column_name_list" for the table.
+     If there is no problem, creating table name and adding to "table_names" list with "append()"
+     When create a table, we need column names and types. For this column names with type we have "formatted_column_with_types".
+     After this steps execute SQL code and create table.
 
-          The second function of the parsing() function is "fetch_data_from_db()".
-               We will use it to table name datas dinamically to combo box that includes table names.
-               With "sqlite_master" take the pieces names which has type as "table". And put them to "data" variable with "fetchall()".
+     The second function of the parsing() function is "fetch_data_from_db()".
+     We will use it to table name datas dinamically to combo box that includes table names.
+     With "sqlite_master" take the pieces names which has type as "table". And put them to "data" variable with "fetchall()".
 
-          The third function of the parsing() function is "parsing_raw_data()".
-               We will use it after creating table with informations from model file.
-               It has start and end indexes informations from model file. We will see how tok takes this informations after this descriptions.
-               Raw datas parsing this start, end indexes and putting to "parsed_data" list.
+     The third function of the parsing() function is "parsing_raw_data()".
+     We will use it after creating table with informations from model file.
+     It has start and end indexes informations from model file. We will see how tok takes this informations after this descriptions.
+     Raw datas parsing this start, end indexes and putting to "parsed_data" list.
 
-          After the functions are defined, loop start to read model file row by row.
-               If current row("row") and "control_row" have same values for the columns in the "columns_to_check", element at fourth column of the model taking as "column_name". While taking, replacing the some values with "_" and letters with English letters.
-               After creating "column_name", if it is already exists in the "table_column_name_list" a warning message will be shown. If it is a new column_name, it will append to "table_column_name_list".
-               To use at parsing_raw_data() function we need star_index and end_index from model file. Fifth column of the model file includes start index of each piece and sixth column of the model file includes length of this piece. 
-               With this values we can find "start_index" and "end_index" values.
-               To continue checking is there any change from columns_to_check, update the group informations values with current row values.
-               After updating this values, putting start_index and end_index values to correct length_list list.
+     After the functions are defined, loop start to read model file row by row.
+     If current row("row") and "control_row" have same values for the columns in the "columns_to_check", element at fourth column of the model taking as "column_name". While taking, replacing the some values with "_" and letters with English letters.
+     After creating "column_name", if it is already exists in the "table_column_name_list" a warning message will be shown. If it is a new column_name, it will append to "table_column_name_list".
+     To use at parsing_raw_data() function we need star_index and end_index from model file. Fifth column of the model file includes start index of each piece and sixth column of the model file includes length of this piece. 
+     With this values we can find "start_index" and "end_index" values.
+     To continue checking is there any change from columns_to_check, update the group informations values with current row values.
+     After updating this values, putting start_index and end_index values to correct length_list list.
 
-          When reading model file finish, we have tables and start-end index values.
+     When reading model file finish, we have tables and start-end index values.
 
-          To prevent any duplication problem, at the tables with a loop we delete each table with execute().
+     To prevent any duplication problem, at the tables with a loop we delete each table with execute().
 
-          With table names and fetch_data_from_db() function, combo box named as "filter_combo_box" filled with table names.
+     With table names and fetch_data_from_db() function, combo box named as "filter_combo_box" filled with table names.
                
-          Last part of the parsing() function is reading "df_data" that includes raw datas and apply the functions to this data.
-               Firstly transformed the data values to str as "str_x"
-               If data is one of the define type, it start the apply functions. Else it gives warning. 
-               For the defined datas, "parsing_raw_data" function is called with parameters as "str_x"(raw data) and "length_list_????"(start-end indexes) to "parsed_data" variable.
-               After calling function, parsed_data inserted to table.
+     Last part of the parsing() function is reading "df_data" that includes raw datas and apply the functions to this data.
+     Firstly transformed the data values to str as "str_x"
+     If data is one of the define type, it start the apply functions. Else it gives warning. 
+     For the defined datas, "parsing_raw_data" function is called with parameters as "str_x"(raw data) and "length_list_????"(start-end indexes) to "parsed_data" variable.
+     After calling function, parsed_data inserted to table.
                
-          When parsing finished, comes a label about parsing success.
+     When parsing finished, comes a label about parsing success.
 
 *    load_data() function working like a refresh page function.
                
-          When clicked its button, it clears combo boxes and display table to prevent duplication.
+     When clicked its button, it clears combo boxes and display table to prevent duplication.
 
-          When table should display a table, a table must be choosen from combo box. This choosing has a variable named "filter_value".
+     When table should display a table, a table must be choosen from combo box. This choosing has a variable named "filter_value".
 
-          If "filter_value" is empty or not selected, a warning pop up will be shown.
+     If "filter_value" is empty or not selected, a warning pop up will be shown.
 
-          Else, all datas in the "filter_value" table is taken and adding to the display table.
+     Else, all datas in the "filter_value" table is taken and adding to the display table.
 
-          When this loading is finished "fetch_columns_from_db()" functions calling. This function will take column names from db. 
+     When this loading is finished "fetch_columns_from_db()" functions calling. This function will take column names from db. 
 
-          End of the function, function calling to "columns" variable, and "columns" adding to "search_combo_box".
+     End of the function, function calling to "columns" variable, and "columns" adding to "search_combo_box".
 
           
 *    browsefiles() and browsefiles_data() functions using to taking model and data files.
                
-          To make a filter for which type of files can adding, there is file_filter variable. 
+     To make a filter for which type of files can adding, there is file_filter variable. 
 
-          Opening a pop-up file choosing window with QFileDialog, getOpenFileName and file_filter as fname variable.
+     Opening a pop-up file choosing window with QFileDialog, getOpenFileName and file_filter as fname variable.
 
-          If zeroth index of fname is not empty, file_path_data variables changing with fname variable and gives this path information into the text box
+     If zeroth index of fname is not empty, file_path_data variables changing with fname variable and gives this path information into the text box
 
                
