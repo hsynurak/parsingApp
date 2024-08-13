@@ -341,8 +341,6 @@ class MainWindow(QWidget, Ui_Widget):
      def download_data(self):
           target_table_name = self.filter_combo_box.currentText()
           options = QFileDialog.Options()
-          options |= QFileDialog.DontUseNativeDialog
-
           
           if not target_table_name:
                msg = QMessageBox()
